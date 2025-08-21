@@ -79,7 +79,6 @@ Custom WooCommerce snippet that extends the **native product search** to match *
 
 ```php
 <?php
-<?php
 /**
  * JSD — WooCommerce search: match product & variation SKUs + attribute term names
  *
