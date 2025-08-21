@@ -1,84 +1,3 @@
-# WooCommerce Frontend SKU + Attribute Search
-
-Custom WooCommerce snippet that extends the **native product search** to match **SKUs** (products + variations) and **attribute term names**.  
-- Keeps native relevance while **OR-adding** SKU/attribute matches.  
-- Maps **variation SKUs** back to the **parent product**.  
-- Searches **global attribute** terms (e.g., `pa_color`, `pa_size`, or a custom `pa_sku`).  
-- Frontend only; no changes to admin search.  
-- Works with Code Snippets or your child theme’s `functions.php`.  
-
----
-
-## Working Sample
-[Sansefuria.com — search for `LCSAN03`](https://sansefuria.com/?s=LCSAN03)
-
----
-
-## Features
-
-- Matches `_sku` on **simple products** and **product variations**.
-- Fuzzy match on **attribute term names** across all registered `pa_*` taxonomies.
-- Preserves native search results and **OR-includes** matched product IDs.
-- Variation hits are **resolved to the parent product** for display consistency.
-- Scoped query flag prevents side effects in unrelated queries.
-
----
-
-## Requirements
-
-- WordPress **5.8+** (tested through **6.7.x**, Aug 2025).
-- WooCommerce **4.x+** (tested through **10.1.x**, Aug 2025).
-- One of the following:
-  - [Code Snippets plugin](https://wordpress.org/plugins/code-snippets/) (recommended)
-  - Or access to your child theme’s `functions.php`
-
----
-
-## Installation
-
-### Option 1: Using Code Snippets (Recommended)
-
-1. Install and activate **Code Snippets**.  
-   *Dashboard → Plugins → Add New → Search “Code Snippets”*
-2. Go to **Snippets → Add New**.
-3. Name it: `WooCommerce Frontend SKU + Attribute Search`.
-4. Paste the PHP code from your `sku-attribute-search.php`.
-5. Set **Run snippet everywhere**.
-6. Save and **Activate**.
-
-### Option 2: Add to `functions.php` (Child Theme Only)
-
-1. Open your child theme’s `functions.php`.
-2. Paste the PHP code at the **end** of the file.
-3. Save the file and clear any caches.
-
----
-
-## Usage
-
-1. Use the **native site search** or the **shop/category/tag** search field.
-2. Enter any of the following:
-   - A **SKU** (full or partial) — matches products and variations.
-   - An **attribute value** (e.g., a color or size term name).
-   - Regular **keywords** (titles, content) — native behavior remains.
-3. Results will include native matches **plus** any products matched by SKU or attribute term.  
-   *(Variation matches are surfaced as their parent product.)*
-
----
-
-## Notes & Compliance
-
-- **Hooks**: Uses `pre_get_posts` to collect matches and a guarded `posts_where` filter that activates **only** when the query carries a custom flag (`jsd_psa_or_ids`).  
-- **Scope**: WHERE clause OR-adds only **published products** to avoid leaking other post types/statuses.  
-- **Attributes**: Searches all registered global attribute taxonomies returned by `wc_get_attribute_taxonomies()` (prefixed `pa_`).  
-- **Safety**: No admin impact; frontend main query only; avoids template overrides.
-
----
-
-## Code (Reference Header)
-
-```php
-<?php
 <?php
 /**
  * JSD — WooCommerce search: match product & variation SKUs + attribute term names
@@ -90,7 +9,7 @@ Custom WooCommerce snippet that extends the **native product search** to match *
  *
  * Requirements: WordPress 5.8+ (tested through 6.7.x), WooCommerce 4.x+ (tested through 10.1.x)
  *
- * @author  jsohnData
+ * @author  JSD
  * @version 1.1.0 (2025-08-21)
  */
 
@@ -278,5 +197,3 @@ function jsd_psa_or_matched_ids( $where, $query ) {
 
 	return $where;
 }
-
-```
